@@ -17,3 +17,16 @@ def open_4_channel(fname):
     
     x = np.stack(img, axis=-1)
     return Image(pil2tensor(x, np.float32).float())
+
+def open_3_channel(fname):
+    fname = str(fname)
+    # strip extension before adding color
+    if fname.endswith('.png'):
+        fname = fname[:-4]
+    colors = ['red','green','blue']
+    flags = cv2.IMREAD_GRAYSCALE
+    img = [cv2.imread(fname+'_'+color+'.png', flags).astype(np.float32)/255
+           for color in colors]
+    
+    x = np.stack(img, axis=-1)
+    return Image(pil2tensor(x, np.float32).float())
